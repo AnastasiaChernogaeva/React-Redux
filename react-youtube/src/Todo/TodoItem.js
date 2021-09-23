@@ -19,7 +19,7 @@ const styles = {
 
 
  function TodoItem ({todo, index, onChange}){
-     const {} = useContext(Context)
+     const {removeTodo} = useContext(Context)
      const classes = []
      if(todo.completed){
          classes.push('done')
@@ -39,9 +39,21 @@ const styles = {
             &nbsp;
             {todo.title}
         </span>
-        <button className="rm">
+        {/* передаем callback, чтобы функция сразу не вызывалась.  */}
+        {/* <button className="rm" onClick={()=>removeTodo(todo.id)}>
             &times;
-        </button>
+        </button> */}
+        {/* или для большей производительности используем метод .bind(null, param) - контекст нам не важен, поэтому передаем нул */}
+        <button className="rm" onClick={removeTodo.bind(null, todo.id)}>
+            &times;
+        </button> 
+
+        
+        {/* передавать так нельзя, так как функция вызовется сразу
+         <button className="rm" onClick={removeTodo(todo.id)}>
+            &times;
+        </button> 
+        */}
         </li>
     )
 }
