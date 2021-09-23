@@ -19,7 +19,10 @@ function App() {
   .then(json => setData(json))
   }, [type])
 
-
+  // без второго параметра вызывается каждый раз, когда происходит рендер
+  useEffect(()=>{
+    console.log('render')
+  }, )
 
   const mouseMoveHandler = ev=>{
       setPos({
