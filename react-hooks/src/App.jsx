@@ -1,28 +1,65 @@
-import React from "react";
-import Main from "./Main";
-import Alert from "./alert/Alert";
-import { AlertProvider } from "./alert/AlertContext";
+import React, {useEffect, useState} from "react";
 
-// export const AlertContext = React.createContext()
+function useLogger(value){
+  useEffect(()=>{
+    console.log('Value changed: ', value)
+  }, [value])
+}
 
+function useInput(initalValue){
+  const [value, setValue]=useState(initalValue)
+  const onChange=(ev)=>{
+    setValue(ev.target.value)
+  }
+  const clear =()=>{
+    setValue('')
+  }
+  return {
+    // value, onChange,
+    bind:{value, onChange},
+    value,
+    clear,
+    
 
+  }
+}
 
 
 function App() {
-  // const [alert, setAlert]=useState(false)
-  // const toggleAlert = () => setAlert(prev=>!prev)
+  const input = useInput('')
+  const lastName = useInput('')
+
+  // const [name, setName] = useState('')
+  // const [lastName, setLastName] = useState('')
+
+
+  // const changeHandler = (ev) =>{
+  //   setName(ev.target.value)
+  // }
+  // const changeHandlerLastName = (ev) =>{
+  //   setLastName(ev.target.value)
+  // }
+
+  useLogger(input.value)
+
   return (
-    // <AlertContext.Provider value={alert}>
-    <AlertProvider>
     <div className={'container pt-3'}>
-      <Alert/>
-      {/* <Main toggle={toggleAlert}/>
-       */}
-      <Main/>
+      {/* <input type="text" value={input.value} onChange={input.onChange}/> */}
+
+      <input type="text" {...input.bind}/>
+      <button className="btn btn-warning" onClick={()=>input.clear()}>Clear</button>
+      <input type="text" {...lastName.bind} onClick={()=>lastName.clear()}/>
+      <button className="btn btn-warning">Clear</button>
+
+
+      {/* <input type="text" value={lastName} onChange={changeHandlerLastName}/> */}
+    <hr />
+      <h1>{input.value}</h1>
+      <h1>{lastName.value}</h1>
+
+      {/* <h1>{lastName}</h1> */}
 
     </div>
-    </AlertProvider>
-    // </AlertContext.Provider>
   );
 }
 
